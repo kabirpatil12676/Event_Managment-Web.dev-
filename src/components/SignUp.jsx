@@ -1,19 +1,31 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const auth = getAuth(app);
 
 const SignupPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
 
     const createUser = async () => {
+        if (!email || !password) {
+            setMessage("Please fill in all fields.");
+            return;
+        }
+        setLoading(true);
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            alert("Signup Successful!");
+            setMessage("Signup Successful!");
+            setTimeout(() => navigate("/login"), 1500); // redirect to login
         } catch (error) {
-            alert(error.message);
+            setMessage(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -24,19 +36,22 @@ const SignupPage = () => {
             <input
                 onChange={(e) => setEmail(e.target.value)} 
                 value={email}
-                type="email" 
-                required 
-                placeholder="Enter your email here"
+                type="email"
+                required
+                placeholder="Enter your email"
             />
             <label>Password</label>
             <input 
                 onChange={(e) => setPassword(e.target.value)} 
-                value={password} 
-                type="password" 
-                required 
-                placeholder="Enter your password here" 
+                value={password}
+                type="password"
+                required
+                placeholder="Enter your password"
             />
-            <button onClick={createUser}>Signup</button>
+            <button onClick={createUser} disabled={loading}>
+                {loading ? "Signing up..." : "Signup"}
+            </button>
+            {message && <p>{message}</p>}
         </div>
     );
 };
