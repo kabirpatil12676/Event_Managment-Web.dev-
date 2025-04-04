@@ -1,48 +1,44 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { app } from "../firebase";
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+const auth = getAuth(app);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    alert("Sign Up Successful! Redirecting to Login...");
-    navigate("/login");
-  };
+const SignupPage = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  return (
-    <div className="signup-container">
-      <form className="signup-form" onSubmit={handleSignUp}>
-        <h2 className="signup-title">Create Account</h2>
-        
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+    const createUser = async () => {
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            alert("Signup Successful!");
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button type="submit" className="signup-button">
-          Sign Up
-        </button>
-      </form>
-    </div>
-  );
+    return (
+        <div className="signup-page">
+            <h1>Signup Page</h1>
+            <label>Email</label>
+            <input
+                onChange={(e) => setEmail(e.target.value)} 
+                value={email}
+                type="email" 
+                required 
+                placeholder="Enter your email here"
+            />
+            <label>Password</label>
+            <input 
+                onChange={(e) => setPassword(e.target.value)} 
+                value={password} 
+                type="password" 
+                required 
+                placeholder="Enter your password here" 
+            />
+            <button onClick={createUser}>Signup</button>
+        </div>
+    );
 };
 
-export default SignUp;
+export default SignupPage;
