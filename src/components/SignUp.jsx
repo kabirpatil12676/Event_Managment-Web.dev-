@@ -1,23 +1,28 @@
 import React, { useState } from "react"; 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";
-import { useNavigate } from "react-router-dom";  // 👈 Import useNavigate
-import './Signup.css';
+
 
 const auth = getAuth(app);
 
 const SignupPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // 👈 Initialize useNavigate
+
 
     const createUser = async () => {
+        if (!email || !password) {
+            setMessage("Please fill in all fields.");
+            return;
+        }
+        setLoading(true);
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            alert("Signup Successful!");
-            navigate("/login"); // 👈 Redirect to Login after signup
+
         } catch (error) {
-            alert(error.message);
+            setMessage(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -28,23 +33,19 @@ const SignupPage = () => {
             <input
                 onChange={(e) => setEmail(e.target.value)} 
                 value={email}
-                type="email" 
-                required 
-                placeholder="Enter your email here"
+                type="email"
+                required
+                placeholder="Enter your email"
             />
             <label>Password</label>
             <input 
                 onChange={(e) => setPassword(e.target.value)} 
-                value={password} 
-                type="password" 
-                required 
-                placeholder="Enter your password here" 
+                value={password}
+                type="password"
+                required
+                placeholder="Enter your password"
             />
-            <button onClick={createUser}>Signup</button>
 
-            <p style={{ marginTop: "1rem" }}>
-                Already have an account? <a href="/login">Login here</a>
-            </p>
         </div>
     );
 };
