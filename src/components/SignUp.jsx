@@ -1,5 +1,9 @@
-import React, { useState } from "react"; 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+} from "firebase/auth";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import './Signup.css';
@@ -7,22 +11,33 @@ import './Signup.css';
 const auth = getAuth(app);
 
 const SignupPage = () => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const createUser = async () => {
-        if (!email || !password) {
+        setMessage("");
+
+        if (!name || !email || !password || !confirmPassword) {
             setMessage("Please fill in all fields.");
             return;
         }
+
+        if (password !== confirmPassword) {
+            setMessage("Passwords do not match.");
+            return;
+        }
+
         setLoading(true);
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            alert("Signup Successful!");
-            navigate("/login");
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(userCredential.user);
+            alert("Registration successful! Please verify your email before logging in.");
+            navigate("/verify-email"); // Optional: create a separate page to show verification message
         } catch (error) {
             setMessage(error.message);
         } finally {
@@ -32,26 +47,43 @@ const SignupPage = () => {
 
     return (
         <div className="signup-page">
-            <h1>Signup Page</h1>
+            <h1>Registration Page</h1>
             {message && <p style={{ color: "red" }}>{message}</p>}
+            
+            <label>Name</label>
+            <input
+                type="text"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
+
             <label>Email</label>
             <input
-                onChange={(e) => setEmail(e.target.value)} 
-                value={email}
                 type="email"
-                required
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
+
             <label>Password</label>
-            <input 
-                onChange={(e) => setPassword(e.target.value)} 
-                value={password}
+            <input
                 type="password"
-                required
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
+
+            <label>Confirm Password</label>
+            <input
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+
             <button onClick={createUser} disabled={loading}>
-                {loading ? "Signing up..." : "Signup"}
+                {loading ? "Registering..." : "Register"}
             </button>
 
             <p style={{ marginTop: "1rem" }}>
