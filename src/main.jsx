@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import App from "./App";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import Landing from "./Landing"; 
+import Landing from "./components/Landing"; 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
