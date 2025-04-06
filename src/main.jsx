@@ -5,6 +5,7 @@ import App from "./App";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Landing from "./components/Landing"; 
+import VerifyEmail from "./components/VerifyEmail";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/signup" element={<SignUp />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<App />} />
+        <Route path="/verify-email" element={<VerifyEmail />} /> {/* ✅ New route */}
       </Routes>
     </Router>
   </React.StrictMode>
