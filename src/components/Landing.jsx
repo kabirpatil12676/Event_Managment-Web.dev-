@@ -5,7 +5,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    navigate("/SignUp");
+    navigate("/Signup");
   };
 
   const handleSignIn = () => {
