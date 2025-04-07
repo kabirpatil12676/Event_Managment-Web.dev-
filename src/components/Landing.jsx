@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./Landing.css";
-
+import logo from '../assets/logo.jpeg';
 const Landing = () => {
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const Landing = () => {
   return (
     <div className="landing-container">
       <div className="card">
-        <div className="icon">WIT LOGO WILL COME HERE</div>
+        <div className="icon"><img src={logo}/></div>
         <h2>Welcome to TPO website</h2>
         <p>SIMPLE DISCRIPTION ABOUT WEBSITE.......</p>
         <p>CREATE A NEW ACCOUNT OR REGISTER NOW</p>

@@ -1,0 +1,80 @@
+/* Full page setup */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #3b82f6 50%, #f1f5f9 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main container/card */
+.landing-container {
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+
+/* Icon or logo at the top */
+.icon img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+/* Headings and text */
+.card h2 {
+  font-size: 22px;
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #334155;
+  margin: 10px 0;
+}
+
+/* Button group */
+.button-group {
+  margin-top: 25px;
+}
+
+/* Buttons */
+.primary-button,
+.secondary-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+/* Primary button style */
+.primary-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Secondary button style */
+.secondary-button {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Hover effects */
+.primary-button:hover {
+  background-color: #2563eb;
+}
+
+.secondary-button:hover {
+  background-color: #cbd5e1;
+}
