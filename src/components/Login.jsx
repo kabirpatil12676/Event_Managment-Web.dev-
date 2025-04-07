@@ -1,48 +1,68 @@
-import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { app } from '../firebase';
-import './Login.css';
+import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { app } from "../firebase";
+import "./Login.css";
 
 const auth = getAuth(app);
 
-const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");  // State for error messages
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const signinUser = async () => {
-        setError(""); // Clear any previous errors
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            console.log("Signin success");
-            alert("Sign-in successful!");
-        } catch (err) {
-            console.error("Signin failed: ", err.message);
-            setError(err.message);  // Update error state
-        }
-    };
+  const loginUser = async () => {
+    setMessage("");
 
-    return (
-        <div className="signin-page">
-            <h1>Login Page</h1>
-            {error && <p style={{ color: "red" }}>{error}</p>}  {/* Show error if any */}
-            <label>Enter your Email</label>
-            <input
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                type="email"
-                placeholder="Enter your email here"
-            />
-            <label>Enter your Password</label>
-            <input
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                type="password"
-                placeholder="Enter your password here"
-            />
-            <button onClick={signinUser}>Login</button>
-        </div>
-    );
+    if (!email || !password) {
+      setMessage("Please fill in all fields.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (!userCredential.user.emailVerified) {
+        setMessage("Please verify your email before logging in.");
+        return;
+      }
+      navigate("/user-dashboard"); // or "/admin-dashboard" based on role
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="signin-page">
+      <h1>Login</h1>
+
+      <label>Email</label>
+      <input
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <label>Password</label>
+      <input
+        type="password"
+        placeholder="Enter your password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={loginUser} disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
+      </button>
+
+      {message && <p style={{ color: "red", marginTop: "12px" }}>{message}</p>}
+    </div>
+  );
 };
 
-export default Login;
+export default LoginPage;
