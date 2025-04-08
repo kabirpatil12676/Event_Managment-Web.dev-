@@ -14,7 +14,7 @@ import {
 import "./Dashboard.css";
 
 // 🔁 Simulate userRole - Replace with real auth later
-const userRole = "enduser"; // Change to "enduser" for testing user view
+const userRole = "admin"; // Change to "enduser" for testing user view
 
 const Dashboard = () => {
   const navigate = useNavigate();
