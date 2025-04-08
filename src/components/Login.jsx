@@ -28,7 +28,7 @@ const LoginPage = () => {
         setMessage("Please verify your email before logging in.");
         return;
       }
-      navigate("/user-dashboard"); // or "/admin-dashboard" based on role
+      navigate("Dashboard"); // or "/admin-dashboard" based on role
     } catch (error) {
       setMessage(error.message);
     } finally {
