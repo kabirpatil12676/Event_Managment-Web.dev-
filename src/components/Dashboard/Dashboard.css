@@ -1,41 +1,105 @@
 .dashboard-container {
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f9fc;
-    min-height: 100vh;
-  }
-  
-  .dashboard-heading {
-    text-align: center;
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 2rem;
-  }
-  
-  .dashboard-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    max-width: 500px;
-    margin: auto;
-  }
-  
-  .dashboard-card ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .dashboard-card li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 1rem 0;
-    font-size: 1.1rem;
-    color: #444;
-  }
-  
-  .dashboard-card li svg {
-    color: #007bff;
-  }
-  
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+
+.dashboard-heading {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.search-bar {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 50%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-card h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.dashboard-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.card-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.card-actions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.card-actions .edit-btn {
+  background-color: #402d95;
+  color: white;
+}
+
+.card-actions .delete-btn {
+  background-color: #df544a;
+  color: white;
+}
+
+.create-form {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 1rem auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.create-form input,
+.create-form textarea {
+  width: 100%;
+  margin-bottom: 0.8rem;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.create-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

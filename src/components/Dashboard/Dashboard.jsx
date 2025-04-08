@@ -1,74 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FaCalendarAlt,
   FaSearch,
-  FaPen,
-  FaClipboardList,
-  FaPlus,
   FaEdit,
   FaTrash,
-  FaChartBar,
-  FaUsers,
+  FaPlus,
 } from "react-icons/fa";
 import "./Dashboard.css";
 
-// 🔁 Simulate userRole - Replace with real auth later
 const userRole = "admin"; // Change to "enduser" for testing user view
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const events = [
-    { id: 1, title: "Tech Conference", description: "Latest in tech.", status: "Pending for Payment" },
-    { id: 2, title: "AI Summit", description: "Exploring AI trends.", status: "Registered" },
-  ];
+  const [events, setEvents] = useState([
+    { id: 1, title: "Tech Conference", description: "Latest in tech." },
+    { id: 2, title: "AI Summit", description: "Exploring AI trends." },
+  ]);
 
-  // Admin Functions (Simulated)
-  const handleCreate = () => alert("Create Event Clicked");
-  const handleEdit = (id) => alert(`Edit Event ID: ${id}`);
-  const handleDelete = (id) => alert(`Delete Event ID: ${id}`);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newEvent, setNewEvent] = useState({ title: "", description: "", date: "" });
+
+  const handleCreateEvent = () => {
+    if (newEvent.title && newEvent.description && newEvent.date) {
+      setEvents([...events, { id: Date.now(), ...newEvent }]);
+      setNewEvent({ title: "", description: "", date: "" });
+      setShowCreateForm(false);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setEvents(events.filter((e) => e.id !== id));
+  };
+
+  const handleEdit = (id) => {
+    alert(`Edit Event ID: ${id}`); // Replace with actual logic
+  };
+
+  const filteredEvents = events.filter((e) =>
+    e.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-heading">
-        {userRole === "admin" ? "👨‍💼 Admin Dashboard" : "👤 User Dashboard"}
-      </h1>
+      <h2 className="dashboard-heading">
+        {userRole === "admin" ? "Admin Dashboard" : "User Dashboard"}
+      </h2>
 
-      {/* Admin-specific actions */}
+      {userRole === "enduser" && (
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search Events..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      )}
+
       {userRole === "admin" && (
-        <div className="admin-actions">
-          <button className="create-btn" onClick={handleCreate}>
+        <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+          <button onClick={() => setShowCreateForm(!showCreateForm)}>
             <FaPlus /> Create Event
           </button>
         </div>
       )}
 
-      {/* Event Cards */}
-      <div className="dashboard-card">
-        {events.map((event) => (
-          <div key={event.id} className="event-box">
-            <h3>{event.title}</h3>
-            <p>{event.description}</p>
-            <p>Status: {event.status}</p>
+      {showCreateForm && (
+        <div className="create-form">
+          <input
+            type="text"
+            placeholder="Event Name"
+            value={newEvent.title}
+            onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+          />
+          <input
+            type="datetime-local"
+            value={newEvent.date}
+            onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+          />
+          <textarea
+            rows="3"
+            placeholder="Description"
+            value={newEvent.description}
+            onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+          />
+          <button onClick={handleCreateEvent}>Submit</button>
+        </div>
+      )}
 
-            {userRole === "enduser" && (
-              <>
-                {event.status === "Pending for Payment" && (
-                  <>
-                    <button onClick={() => navigate("/payment")}>💳 Make Payment</button>
-                    <button onClick={() => navigate("/download")}>📥 Download Ticket</button>
-                  </>
-                )}
-              </>
-            )}
+      <div className="dashboard-cards">
+        {filteredEvents.map((item) => (
+          <div className="dashboard-card" key={item.id}>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <p><strong>Date:</strong> {item.date || "TBA"}</p>
 
             {userRole === "admin" && (
-              <div className="admin-controls">
-                <button onClick={() => handleEdit(event.id)}>
+              <div className="card-actions">
+                <button className="edit-btn" onClick={() => handleEdit(item.id)}>
                   <FaEdit /> Edit
                 </button>
-                <button onClick={() => handleDelete(event.id)}>
+                <button className="delete-btn" onClick={() => handleDelete(item.id)}>
                   <FaTrash /> Delete
                 </button>
               </div>
@@ -76,26 +110,6 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-
-      {/* Extra Admin Stats */}
-      {userRole === "admin" && (
-        <div className="dashboard-stats">
-          <ul>
-            <li><FaChartBar /> View analytics</li>
-            <li><FaUsers /> Manage registrations</li>
-          </ul>
-        </div>
-      )}
-
-      {/* Extra User Features */}
-      {userRole === "enduser" && (
-        <ul>
-          <li><FaCalendarAlt /> View upcoming events</li>
-          <li><FaSearch /> Browse & search events</li>
-          <li><FaPen /> Register for events</li>
-          <li><FaClipboardList /> View registration history</li>
-        </ul>
-      )}
     </div>
   );
 };
