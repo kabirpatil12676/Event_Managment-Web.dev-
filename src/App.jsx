@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignupPage from "./components/Signup";
+import SignupPage from "./components/SignUp";
 import LoginPage from "./components/Login";
-import AdminDashboard from "./Dashboard/AdminDashboard";
-import UserDashboard from "./Dashboard/UserDashboard";
-
+import Dashboard from "./components/Dashboard/Dashboard"; // ✅ Import your unified Dashboard
 
 function App() {
   return (
@@ -11,8 +9,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} /> {/* ✅ Add this */}
       </Routes>
     </Router>
   );
