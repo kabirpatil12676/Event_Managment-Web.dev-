@@ -4,7 +4,7 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #3b82f6 50%, #f1f5f9 50%);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@ body, html {
 
 /* Icon or logo at the top */
 .icon img {
-  width: 50px;
+  width: 100px;
   margin-bottom: 20px;
 }
 
@@ -60,8 +60,8 @@ body, html {
 
 /* Primary button style */
 .primary-button {
-  background-color: #3b82f6;
-  color: white;
+  background-color: #e2e8f0;
+  color: #1e293b;
 }
 
 /* Secondary button style */
@@ -72,9 +72,9 @@ body, html {
 
 /* Hover effects */
 .primary-button:hover {
-  background-color: #2563eb;
+  background-color: #3b82f6;
 }
 
 .secondary-button:hover {
-  background-color: #cbd5e1;
+  background-color: #3b82f6;
 }
