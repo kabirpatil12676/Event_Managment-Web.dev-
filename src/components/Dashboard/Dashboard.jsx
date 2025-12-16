@@ -49,6 +49,7 @@ const Dashboard = () => {
   });
 
   return (
+    <div className="page-wrapper">
     <div className="dashboard-container">
       <h2 className="dashboard-heading">
         {userRole === "admin" ? "Admin Dashboard" : "User Dashboard"}
@@ -137,6 +138,7 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
